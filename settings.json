@@ -1,7 +1,7 @@
 {
   "ai_difficulty": "EXPERT",
-  "player_color": true,
-  "ai_color": false,
+  "player_color": false,
+  "ai_color": true,
   "sound_enabled": true,
   "animations_enabled": true
 }

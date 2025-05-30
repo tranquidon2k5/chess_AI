@@ -33,10 +33,12 @@ class MinimaxAI:
 
         # Evaluate each move from AI's perspective
         for move in ordered_moves:
-            board.push(move)
+            # Create a copy of the board for this search branch
+            board_copy = board.copy()
+            board_copy.push(move)
             # AI is maximizing player, opponent is minimizing
-            value = self._minimax(board, self.max_depth - 1, alpha, beta, False, self.ai_color)
-            board.pop()
+            value = self._minimax(board_copy, self.max_depth - 1, alpha, beta, False, self.ai_color)
+            # No board.pop() needed on the original board, as we used a copy
 
             if value > best_value:
                 best_value = value
@@ -58,11 +60,12 @@ class MinimaxAI:
                 captured_piece = board.piece_at(move.to_square)
                 if captured_piece:
                     score += captured_piece.piece_type * 2
-            # Prioritize checks
-            board.push(move)
-            if board.is_check():
+            # Prioritize checks by simulating the move on a temporary copy
+            temp_board_for_check = board.copy()
+            temp_board_for_check.push(move)
+            if temp_board_for_check.is_check():
                 score += 5
-            board.pop()
+            # No pop needed for temp_board_for_check
             move_scores.append((move, score))
         
         # Sort moves by score in descending order
